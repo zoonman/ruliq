@@ -30,12 +30,17 @@ html
 				p	Добро пожаловать в наш чат. Чат посвящен обсуждению технических и околотехнических вопросов касательно Linux и другого свободного программного обеспечения. 
 				p	Пожалуйста, укажите имя для входа в чат. Имя должно быть набрано латиницей и быть набрано без пробелов и прочих знаков.
 				div
-					Имя: 
+					p Имя:
 					input(type='text' placeholder='Укажите псевдоним')#pseudoInput
 					button#pseudoSet Войти в чат
-				p	Сообщения о багах и косяках присылать сюда lq@zoonman.com (версия чата слегка сыровата)
+				    p
+                p	От разработчика
+                p
+                p   Данный чат является полноценным открытым продуктом. Исходный код доступен всем желающим на
+                    a(href='https://github.com/zoonman/ruliq', target='_blank').
+                    Там же размещен баг-трекер.
 				div
-					Поделитесь ссылкой
+					p Поделитесь ссылкой
 				div	
 					<a class="fa fa-facebook-square fa-2x" style="text-decoration: none;color: green" rel="nofollow" title="Поделиться в Facebook" href="http://www.facebook.com/sharer.php?u=http://www.linuxquestions.ru/" target="_blank"></a>
 					<a class="fa fa-vk fa-2x" style="text-decoration: none;color: green" rel="nofollow" title="Поделиться В Контакте" href="http://vkontakte.ru/share.php?url=http://www.linuxquestions.ru/" target="_blank"></a>
@@ -60,9 +65,13 @@ html
 				header Настройки
 					a.fa.fa-times#hideChatSettings
 				div.body
+                    p Все настройки применяются немедленно
 					input#ctrlEnterSetting(type="checkbox") 
 					label(for="ctrlEnterSetting") Режим отправки Ctrl+Enter (по умолчанию используется просто Enter)
 					br
+                        select#theme
+                            option Fancy
+                            option Hacker
 					
 			
 			
