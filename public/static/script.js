@@ -87,7 +87,7 @@ function addMessage(msg, pseudo, hclass, ts) {
 	$("#chatEntries").animate({	scrollTop: $("#chatEntries")[0].scrollHeight }, 300); }, 50);
 	// 
 	if (("Notification" in window) && pseudo != "Me" && !document.hasFocus()) {
-    if (Notification.permission === "granted") {
+    		if (Notification.permission === "granted") {
 			var notification = new Notification("New message from "+pseudo, {body: plain_msg});
 		}
 		else if (Notification.permission !== 'denied') {
@@ -100,7 +100,7 @@ function addMessage(msg, pseudo, hclass, ts) {
 				}
 			});
 		}
-  }
+  	}
 }
 
 function sentMessage() {
@@ -168,6 +168,7 @@ function show_members() {
 	$('#chatMembers').show();
 	$('i.fa-users').addClass('active');
 }
+
 function hide_members() {
 	$('#chatEntries').removeClass('w80').addClass('w100');
 	$('#chatMembers').hide();
@@ -184,6 +185,12 @@ $(function() {
 	$(window).resize(function () {
 		$("#chatEntries").css('height', ($(window).height()-100));
 		$("#chatMembers").css('height', ($(window).height()-100));
+	});
+	
+	$('#pseudoInput').on('keyup', function(e){
+		if (e.which == 13) {
+			setPseudo();
+		}	
 	});
 	
 	$('#messageInput').keyup(function (e){
