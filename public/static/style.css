@@ -1,0 +1,151 @@
+
+body	{
+	font-family: FixedsysExcelsior301Regular, Consolas, Courier News, monospace;
+	background-color: #111;
+	color: #5a5;
+	margin:0; padding:0; border:0;
+	font-weight: normal;
+	font-style: normal;
+	-webkit-font-smoothing:aliased;
+	font-smooth:never;
+}
+.clear	{clear: both}
+h1 {
+	color: #999;
+	font-size: 16px;
+	font-weight: 300;
+	line-height: 23px;
+	margin: 0;
+	padding-left: 5px;
+	text-shadow: 1px 1px 0 #111111;
+}
+header {
+	height: 24px;
+	background: none repeat scroll 0 0 #003300;
+	border-left: 1px solid #004400;
+	border-top: 1px solid #004400;
+	overflow: hidden
+}
+header	h1 #head {float: left}
+header	#nav {position: absolute;right: 0px;top: 2px;}
+header	#nav i	{
+	padding: 1px 5px;
+	cursor: pointer;
+}
+header	a	{text-decoration: none}
+header #nav a, header #nav a:link, header #nav a:visited	{color: #999}
+header	#nav a:hover, header	#nav i:hover {color: #eee}
+header	i.active {color: #5d0}
+#chatContainer	{border: solid 1px #444;}
+#chatEntries	{
+	height: 500px;
+	display: none;
+	float: left;
+	margin: 0px;padding: 0px;
+	overflow: auto;
+	box-shadow: 0 5px 5px #000000 inset;
+}
+#chatMembers	{
+	font-size: 16px;
+	color: #555;
+	height: 200px;
+	float: right;
+	display: none;
+	border-left: solid 1px #444;
+	margin-left: -2px;
+	overflow: auto;
+	/* position: fixed;top: 28px;right: 30px; */
+}
+#chatMembers	a	{display: block;color: #007700;text-decoration: none;padding: 1px 10px;}
+		
+.w100	{width: 100%}
+.w80	{width: 80%}
+.w20	{width: 20%}
+
+#chatEntries	.me	{color: #888}
+#chatEntries	.regular	{color: #393}
+#chatEntries	.mention	{color: #3d3}
+#chatEntries	.pm	{color: #339}
+#chatEntries	.admin	{color: #a55}
+#chatEntries	.server	{color: #555}
+#chatEntries	span	{opacity: 0.7}
+#chatEntries	span.ts	{color: #055}
+#chatEntries	.message	{margin: 5px;}
+#chatEntries	.message	p	{margin: 0px;}
+
+#chatEntries	a	{color: #775;
+	     text-decoration-color: rgba(119,119,85,0.2);
+	-moz-text-decoration-color: rgba(119,119,85,0.2);
+}
+#chatEntries	a	span	{opacity: 0.2;}
+#chatEntries	a:hover {text-decoration:underline}
+#chatEntries	a:hover span {opacity: 1;}
+
+#chatControls	{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #444;
+	border-top-color: #000;
+	box-shadow: 0 2px 3px #000000 inset;
+	display: block;
+	padding: 5px;
+	background: #222;
+	height: 42px;
+	
+	overflow: hidden;
+}
+#appStatus	{font-size: 11px;color: #222}
+#chatLogin	{padding: 10px;}
+
+#messageWrap {
+margin-right: 60px;
+}
+#messageInput	{    background-color: rgba(0, 0, 0, 0);
+    border-color: #222222;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 1px 0 0;
+    box-shadow: 3px 0 2px -3px #000000;
+    color: #CCCCCC;
+    font-family: FixedsysExcelsior301Regular,Consolas,Courier News,monospace;
+    font-size: 16px;
+    height: 42px;
+    outline: medium none;
+    padding-right: 10px;
+    resize: none;
+    width: 100%;
+}
+#submit	{
+	background: none repeat scroll 0 0 #222222;
+	border: 0 solid #444444;
+	color: #105010;
+	float: right;
+	text-shadow: 0 -1px 0 #000000;
+	width: 45px;
+	line-height: 38px;
+}
+
+
+#chatSettings {display: none;
+	position: absolute;
+	right: 5px;
+	top: 35px;
+	width: 300px;
+	background: #222;
+	border: solid 1px #151;
+	padding: 0px;
+	box-shadow: 1px 1px 5px #000;
+}
+
+#chatSettings #hideChatSettings {
+float: right;
+    padding: 2px 5px;
+    text-shadow: 0 -1px 1px #000000;}
+
+
+pre, code	{
+    max-height: 150px;
+    overflow: auto;
+    font-family: FixedsysExcelsior301Regular,Consolas,Courier News,monospace;
+}
+		
