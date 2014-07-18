@@ -144,7 +144,7 @@ socket.on('command', function(data) {
 			window.document.title = $("#pseudoInput").val()+'@RuLiQ';
 			$('#chatControls').show();
 			$('#chatEntries').show();
-			$('#chatEntries').html('<p>...restored login after network problem...</p>');
+			$('#chatEntries').html('<p>Добро пожаловать в чат! <a href="/rules.html" target="_blank">Справка</a>.</p>');
 			$('#chatLogin').hide();
 			show_members();
 			ga('send', 'event', 'button', 'click', 'successfull login', 2);
