@@ -2,7 +2,7 @@ doctype 5
 html
 	head
 		title RuLiQ - чат для спокойного общения
-		meta(charset="utf-8")	
+		meta(charset="utf-8")
 		script(src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
 		script(src="/dist/socket.io.min.js")
 		script(src="/static/script.js")
@@ -20,58 +20,58 @@ html
 	body
 		div.container
 			header
-				h1 
+				h1
 					div#head Русскоязычная online-конференция
 					div#nav
-						a(class="fa fa-question-circle" href='/rules.html' target='_blank')
+						a(class="fa fa-question-circle",href='/rules.html',target='_blank')
 						i(class="fa fa-cog")
 						i(class="fa fa-users")
 			div#chatLogin
-				p	Добро пожаловать в наш чат. Чат посвящен обсуждению технических и околотехнических вопросов касательно Linux и другого свободного программного обеспечения. 
-				p	Пожалуйста, укажите имя для входа в чат. Имя должно быть набрано латиницей и быть набрано без пробелов и прочих знаков.
+				p    Добро пожаловать в наш чат. Чат посвящен обсуждению технических и околотехнических вопросов касательно Linux и другого свободного программного обеспечения.
+				p    Пожалуйста, укажите имя для входа в чат. Имя должно быть набрано латиницей и быть набрано без пробелов и прочих знаков.
 				div
 					p Имя:
-					    input(type='text' placeholder='Укажите псевдоним')#pseudoInput
-					    button#pseudoSet Войти в чат
-				    p
-                    p	От разработчика
-                    p
-                    p   Данный чат является полноценным открытым продуктом. Исходный код доступен всем желающим на
-                        a(href='https://github.com/zoonman/ruliq', target='_blank').
-                            Там же размещен баг-трекер.
+						input(type='text',placeholder='Укажите псевдоним')#pseudoInput
+						button#pseudoSet Войти в чат
+					p
+					p    От разработчика
+					p
+					p   Данный чат является полноценным открытым продуктом. Исходный код доступен всем желающим на
+						a(href='https://github.com/zoonman/ruliq', target='_blank').
+							Там же размещен баг-трекер.
 				div
 					p Поделитесь ссылкой
-				div	
+				div
 					<a class="fa fa-facebook-square fa-2x" style="text-decoration: none;color: green" rel="nofollow" title="Поделиться в Facebook" href="http://www.facebook.com/sharer.php?u=http://www.linuxquestions.ru/" target="_blank"></a>
 					<a class="fa fa-vk fa-2x" style="text-decoration: none;color: green" rel="nofollow" title="Поделиться В Контакте" href="http://vkontakte.ru/share.php?url=http://www.linuxquestions.ru/" target="_blank"></a>
 					<a class="fa fa-twitter fa-2x" style="text-decoration: none;color: green" rel="nofollow" title="Опубликовать в Twitter" href="http://twitter.com/home/?status=Чат+http://www.linuxquestions.ru/" target="_blank"></a>
 			div#chatContainer
 				div#chatEntries(class="w100")
-					
-						div(class='message admin')
-							p	*** Merry Cristmass! *** Happy New Year! *** 
-							p Пожалуйста, воздержитесь от использования крепкого словца и уважайте собеседников.
-							p	
-								a(href='/rules.html' target='_blank') Правила поведения
+
+					div(class='message admin')
+						p    *** Merry Cristmass! *** Happy New Year! ***
+						p Пожалуйста, воздержитесь от использования крепкого словца и уважайте собеседников.
+						p
+							a(href='/rules.html' target='_blank') Правила поведения
 				div#chatMembers(class="w20") Members			
 				div.clear
 			div#chatControls
-				button(class="fa fa-reply fa-2x")#submit  
+				button(class="fa fa-reply fa-2x")#submit
 				div#messageWrap
 					textarea(placeholder='Ваше сообщение')#messageInput
-				
+
 			div#appStatus
 			div#chatSettings
 				header Настройки
 					a.fa.fa-times#hideChatSettings
 				div.body
-                    p Все настройки применяются немедленно
-					input#ctrlEnterSetting(type="checkbox") 
+					p Все настройки применяются немедленно
+					input#ctrlEnterSetting(type="checkbox")
 					label(for="ctrlEnterSetting") Режим отправки Ctrl+Enter (по умолчанию используется просто Enter)
 					br
-                        select#theme
-                            option Fancy
-                            option Hacker
+						select#theme
+							option Fancy
+							option Hacker
 					
 			
 			
