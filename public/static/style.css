@@ -61,7 +61,7 @@ header	i.active {color: #5d0}
 .w100	{width: 100%}
 .w80	{width: 80%}
 .w20	{width: 20%}
-
+a       {color: #15aac5;}
 #chatEntries	.me	{color: #888}
 #chatEntries	.regular	{color: #393}
 #chatEntries	.mention	{color: #3d3}
