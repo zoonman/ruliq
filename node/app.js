@@ -102,21 +102,6 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
     });
   });
 
-  app.get('/logs/:year', function(req, res){
-    chatLog.aggregate([
-      {$match: {ts: {$gte: new Date(req.params.year + "-01-01T00:00:00.000Z"), $lte: new Date(req.params.year + "-12-31T23:59:59.999Z")}}},
-      {$group: {_id: {$month: "$ts"}, quantity: {$sum: 1}}}
-    ], function(err,result) {
-      return res.render('logsMonthly.jade', {year: req.params.year, chatLogs: result} );
-    });
-
-  });
-  app.get('/logs/:year/:month', function(req, res){
-    chatLog.find().limit(1000).toArray(function(err,items) {
-      return res.render('logsDaily.jade', {year: req.params.year, month: req.params.month, chatLogs: items} );
-    });
-  });
-
   app.get('/logs/convert', function(req, res){
     chatLog.find().toArray(function(err,items) {
       items.forEach(function(itVal) {
@@ -130,6 +115,21 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
         }
       });
       return res.render('rules.jade', {converted: true} );
+    });
+  });
+
+  app.get('/logs/:year', function(req, res){
+    chatLog.aggregate([
+      {$match: {ts: {$gte: new Date(req.params.year + "-01-01T00:00:00.000Z"), $lte: new Date(req.params.year + "-12-31T23:59:59.999Z")}}},
+      {$group: {_id: {$month: "$ts"}, quantity: {$sum: 1}}}
+    ], function(err,result) {
+      return res.render('logsMonthly.jade', {year: req.params.year, chatLogs: result} );
+    });
+
+  });
+  app.get('/logs/:year/:month', function(req, res){
+    chatLog.find().limit(1000).toArray(function(err,items) {
+      return res.render('logsDaily.jade', {year: req.params.year, month: req.params.month, chatLogs: items} );
     });
   });
 
