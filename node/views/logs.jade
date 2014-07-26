@@ -1,8 +1,8 @@
-doctype 5
+doctype html
 html
 	head
 		title RuLiQ - Русскоязычный анонимный Linux чат
-		meta(charset="utf-8")	
+		meta(charset="utf-8")
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
 		link(rel="stylesheet" href="/static/style.css")
 		link(rel="stylesheet" href="/static/fonts.css")
@@ -10,13 +10,16 @@ html
 		div.container
 			header
 				h1 История сообщений
-			div#chatLogin
-				p 	
-				p= year
-				p= month
-				each item in chatLogs
-					li
-						span= item.pseudo 
-						pre= item.message
+			div#chatContainer
+				div#chatLogin
+					p
+					h2= year
+					h3= month
+					div#chatEntries
+					each item in chatLogs
+						div.message.regular
+							p
+								a.nick(title=(new Date(item.ts)).toString()) #{item.pseudo}
+								| : #{item.message}
 
 

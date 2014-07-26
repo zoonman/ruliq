@@ -54,6 +54,9 @@ header	i.active {color: #5d0}
 	border-left: solid 1px #444;
 	margin-left: -2px;
 	overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: nowrap;
 	/* position: fixed;top: 28px;right: 30px; */
 }
 #chatMembers	a	{display: block;color: #007700;text-decoration: none;padding: 1px 10px;}
@@ -70,7 +73,7 @@ a       {color: #15aac5;}
 #chatEntries	.server	{color: #555}
 #chatEntries	span	{opacity: 0.7}
 #chatEntries	span.ts	{color: #055}
-#chatEntries	.message	{margin: 5px;}
+#chatEntries	.message	{margin: 0px;padding: 5px;}
 #chatEntries	.message	p	{margin: 0px;}
 
 #chatEntries	a	{color: #775;
@@ -148,4 +151,11 @@ pre, code	{
     overflow: auto;
     font-family: FixedsysExcelsior301Regular,Consolas,Courier News,monospace;
 }
-		
+.typing::after {content: "..."}
+
+.color0 {background-color: #10121a}
+.color1 {background-color: #101a10}
+.color2 {background-color: #1a121a}
+.color3 {background-color: #1a1211}
+.color4 {background-color: #171207}
+.color5 {background-color: #1f1210}

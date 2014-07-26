@@ -52,26 +52,27 @@ function pts(ts) {
 	return leftZeroFill(d.getHours(),2) + ':' + leftZeroFill(d.getMinutes(),2);
 }
 
-function addMessage(msg, pseudo, hclass, ts) {
-	if (typeof msg === "undefined") return;
-	var plain_msg = msg;
+function addMessage(data) {
+	if (typeof data['message'] === "undefined") return;
+	var plain_msg = data.message, msg  = data.message;
+  // ['message'], data['pseudo'], data['hclass'], data['ts']
 	msg = msg.replace( /(^|\s)@(\w+)\b/gi, " $1<a href='#' onclick='insertMessage(\"@$2\");return false'><span>@</span>$2</a>");
 	msg = msg.replace( /((?:https\:\/\/)|(?:http\:\/\/)|(?:ftp\:\/\/)|(?:www\.))?([a-zA-Z0-9\-\.]+\.[a-zA-Z]{1,3}(?:\??)[a-zA-Z0-9\-\._\?\,\'\/\\\+&%\$#\=~]+)/gi, repl_add_proto);
 	var mr = new RegExp('@' + $("#pseudoInput").val() + '','igm');
-	if (mr.test(msg) && hclass == 'regular') {
+	if (mr.test(msg) && data.hclass == 'regular') {
 		hclass='mention';
 	}
 	var d = new Date();
 	var h = d.getHours(), m = d.getMinutes();
-	if (typeof ts === "undefined") {
-		ts = Date.now();
+	if (typeof data.ts === "undefined") {
+    data.ts = Date.now();
 	}
 	var codeMode = false;
 	if(msg.indexOf('&lt;code') > -1 && msg.indexOf('&lt;/code&gt;') > -1) {
 	    codeMode = true;
 	}
-	var html = '<div class="message '+hclass+'"><p><span class="ts">'+pts(ts)+'</span> ';
-	html += '<a href="#" onclick="insertMessage(\'@' + pseudo + '\');return false" class="nick">' + pseudo + '</a>: ';
+	var html = '<div class="message '+data.hclass+' color'+data.color+'"><p><span class="ts">'+pts(data.ts)+'</span> ';
+	html += '<a href="#" onclick="insertMessage(\'@' + data.pseudo + ' \');return false" class="nick">' + data.pseudo + '</a>: ';
 	
 	if (codeMode) {
 		// put text
@@ -81,14 +82,14 @@ function addMessage(msg, pseudo, hclass, ts) {
 	    html += msg;
 	}
 	$("#chatEntries").append(html+'</p></div>');
-	$("#chatEntries pre:last").each(function(i, e) {hljs.highlightBlock(e)});
+	//$("#chatEntries pre:last").each(function(i, e) {hljs.highlightBlock(e)});
 	
 	var t = window.setTimeout(function () {
 	$("#chatEntries").animate({	scrollTop: $("#chatEntries")[0].scrollHeight }, 300); }, 50);
 	// 
-	if (("Notification" in window) && pseudo != "Me" && !document.hasFocus()) {
+	if (("Notification" in window) && data.pseudo != "Me" && !document.hasFocus()) {
     		if (Notification.permission === "granted") {
-			var notification = new Notification("New message from "+pseudo, {body: plain_msg});
+			var notification = new Notification("New message from "+data.pseudo, {body: plain_msg});
 		}
 		else if (Notification.permission !== 'denied') {
 			Notification.requestPermission(function (permission) {
@@ -96,7 +97,7 @@ function addMessage(msg, pseudo, hclass, ts) {
 					Notification.permission = permission;
 				}
 				if (permission === "granted") {
-					var notification = new Notification("New message from "+pseudo, {body: plain_msg});
+					var notification = new Notification("New message from "+data.pseudo, {body: plain_msg});
 				}
 			});
 		}
@@ -123,7 +124,7 @@ function setPseudo() {
 }
 
 socket.on('message', function(data) {
-	addMessage(data['message'], data['pseudo'], data['hclass'], data['ts']);
+	addMessage(data);
 });
 
 socket.on('command', function(data) {
@@ -158,10 +159,17 @@ socket.on('members', function(members_data) {
 	//console.log(members_data);
 	var html = '';
 	for (var m in members_data) {
-		html += '<a href="#" onclick="insertMessage(\'@'+members_data[m]+'\');return false">@'+members_data[m]+'</a>';
+		html += '<a href="#" id="memberId'+members_data[m]+'" class="reading" onclick="insertMessage(\'@'+members_data[m]+'\');return false">@'+members_data[m]+'</a>';
 	}
 	$('#chatMembers').html(html);
 });
+
+socket.on('state', function(data) {
+  console.log(data);
+  $("#memberId" + data.member).removeClass('reading').removeClass('typing').addClass(data.state);
+});
+
+
 
 function show_members() {
 	$('#chatEntries').removeClass('w100').addClass('w80');
@@ -176,6 +184,7 @@ function hide_members() {
 }
 
 $(function() {
+  var lastType = new Date(), typingTimeout;
 	$("#chatControls").hide();
 	$("#chatEntries").hide();
 	$("#pseudoSet").click(function() {setPseudo()});
@@ -195,9 +204,19 @@ $(function() {
 	
 	$('#messageInput').keyup(function (e){
 		console.log($('#ctrlEnterSetting').prop('checked'));
-		if(e.which == 13 && ($('#ctrlEnterSetting').prop('checked')==false || e.ctrlKey) && !e.shiftKey) {
-			sentMessage();
-		}
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+		if (e.which == 13 && ($('#ctrlEnterSetting').prop('checked')==false || e.ctrlKey) && !e.shiftKey) {
+      sentMessage();
+      socket.emit('reading', {lastType: lastType});
+		} else {
+      lastType = new Date();
+      socket.emit('typing', {lastType: lastType});
+    }
+    typingTimeout = setTimeout(function(){
+      socket.emit('reading', {lastType: lastType});
+    }, 500)
 	});
 	
 	$('i.fa-users').click(function() {
