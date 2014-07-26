@@ -145,7 +145,7 @@ socket.on('command', function(data) {
 			window.document.title = $("#pseudoInput").val()+'@RuLiQ';
 			$('#chatControls').show();
 			$('#chatEntries').show();
-			$('#chatEntries').html('<p>Добро пожаловать в чат! <a href="/rules.html" target="_blank">Справка</a>.</p>');
+			$('#chatEntries').html('<div class="message">Добро пожаловать в чат! <a href="/rules.html" target="_blank">Справка</a>.</div>');
 			$('#chatLogin').hide();
 			show_members();
 			ga('send', 'event', 'button', 'click', 'successfull login', 2);
@@ -236,7 +236,7 @@ $(function() {
 		$("#chatSettings").hide();
 	});
 	$("<link />",{'rel': 'stylesheet','href': '/static/fonts.css'}).appendTo('head');
-	$("<link />",{'rel': 'stylesheet','href': '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'}).appendTo('head');
+	$("<link />",{'rel': 'stylesheet','href': '//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css'}).appendTo('head');
 });
 
 

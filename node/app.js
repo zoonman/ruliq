@@ -1,6 +1,7 @@
 var express = require('express'), app = express(), http=require('http'), MongoClient = require('mongodb').MongoClient;
-var jade = require('jade');
+var jade = require('jade'), moment = require('moment');
 
+moment.lang('ru');
 
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
@@ -29,7 +30,7 @@ function filter_message(text) {
 }
 
 function ts() {
-	return Date.now();
+	return new Date();
 }
 
 
@@ -80,20 +81,62 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
 
   app.use(express.static(__dirname + '../../public'));
 
+  app.locals.moment = moment;
+
   app.get('/', function(req, res){
     res.render('home.jade');
   });
+
   app.get('/rules.html', function(req, res){
     res.render('rules.jade');
   });
-  app.get('/logs/:year/:month', function(req, res){
-    chatLog.find().limit(1000).toArray(function(err,items) {
-     return res.render('logs.jade', {year: req.params.year, month: req.params.month, chatLogs: items} );
+
+  app.get('/logs/', function(req, res){
+    chatLog.aggregate([{
+      $group:{
+        _id:{ $year: "$ts"},
+        quantity: {$sum: 1}
+      }
+    }], function(err,result) {
+      return res.render('logsYearly.jade', {year: req.params.year, month: req.params.month, chatLogs: result} );
     });
   });
+
+  app.get('/logs/:year', function(req, res){
+    chatLog.aggregate([
+      {$match: {ts: {$gte: new Date(req.params.year + "-01-01T00:00:00.000Z"), $lte: new Date(req.params.year + "-12-31T23:59:59.999Z")}}},
+      {$group: {_id: {$month: "$ts"}, quantity: {$sum: 1}}}
+    ], function(err,result) {
+      return res.render('logsMonthly.jade', {year: req.params.year, chatLogs: result} );
+    });
+
+  });
+  app.get('/logs/:year/:month', function(req, res){
+    chatLog.find().limit(1000).toArray(function(err,items) {
+      return res.render('logsDaily.jade', {year: req.params.year, month: req.params.month, chatLogs: items} );
+    });
+  });
+
+  app.get('/logs/convert', function(req, res){
+    chatLog.find().toArray(function(err,items) {
+      items.forEach(function(itVal) {
+        if (typeof itVal.ts == "number") {
+          chatLog.update(
+              {_id: itVal._id},
+              {'$set': {ts: new Date(itVal.ts)}},
+              function(err, done) {
+              }
+          );
+        }
+      });
+      return res.render('rules.jade', {converted: true} );
+    });
+  });
+
   server.listen(3000, "127.0.0.1");
+
   io.sockets.on('connection', function (socket) {
-    console.dir(socket);
+    // console.dir(socket);
     socket.on('setPseudo', function (pseudoName) {
       if (members.strInArray(pseudoName) || login_blacklist.strInArray(pseudoName) || ! /^[a-z0-9]+$/i.test(pseudoName) ) {
         socket.emit('command', {'type':'relogin'} );
@@ -119,6 +162,7 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
         });
       }
     });
+
     socket.on('disconnect', function() {
       var name = socket.username;
       if (name != null && !login_blacklist.strInArray(name)) {
@@ -138,10 +182,12 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
       }
       console.log("user " + name + " disconnected ");
     });
+
     socket.on('typing', function (ltState) {
       members_data[socket.username].state = 'typing';
       socket.broadcast.emit('state', {'member':socket.username, 'state': 'typing'});
     });
+
     socket.on('reading', function (ltState) {
       members_data[socket.username].state = 'reading';
       socket.broadcast.emit('state', {'member':socket.username, 'state': 'reading'});
@@ -154,18 +200,14 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
           var pm = false;
           // personal message detection
           if (/^pm(\s+|\b)@/ig.test(message)) {
-            //
-            // console.log('Clients:');
-            // console.log(members_data);
             var match = /^pm(\s+|\b)@(\w+)/ig.exec(message);
-            console.log(':::::::' + match[2]+':::');
+//            console.log(':::::::' + match[2]+':::');
             if (typeof(match[2]) !== "undefined" && typeof(members_data[match[2]]) !== "undefined") {
               pm = true;
               if (isOffensive(message)) {
-                socket.emit('message', { 'message' : filter_message('Роботы спасут мир!'), 'pseudo' : 'bot', 'hclass' : 'server', 'ts' : ts() } );
-
+                socket.emit('message', {'message': filter_message('Роботы спасут мир!'), 'pseudo': 'bot', 'hclass': 'server', 'ts': ts()});
               } else {
-                socket.emit('message', { 'message' : filter_message(message), 'pseudo' : name, 'hclass' : 'pm', 'ts' : ts() } );
+                socket.emit('message', {'message': filter_message(message), 'pseudo' : name, 'hclass' : 'pm', 'ts' : ts() } );
 
                 io.sockets.socket(members_data[match[1]].socket_id).emit('message', {'message':filter_message(message.replace(/^pm\s+@(\w+)/ig, '')),'pseudo':name,'hclass':'pm', 'ts' : ts()});
               }
@@ -176,10 +218,7 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
                 var data = { 'message' : 'Привет, о лучезарный ' + name + '! Я спал многие века ожидая твоего сообщения. Теперь ты меня разбудил. Спасибо друг мой. Но что-то я снова устал. Пойду посплю еще. ', pseudo : 'Bot', 'hclass' : 'server', 'ts' : ts() };
                 socket.emit('message', data);
               }
-            // io.sockets.sockets(socketid).emit('message', 'for your eyes only');
           }
-          // console.log('::' + message.substr(0, 3) + '::');
-
 
           if (! pm) {
             if (isOffensive(message)) {
