@@ -1,5 +1,5 @@
-linuxquestions.ru
-=================
+RuLiQ
+=====
 
 
 Web-chat, written on Node.js. Based on WebSockets.
