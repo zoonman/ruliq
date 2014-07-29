@@ -149,6 +149,9 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
         socket.broadcast.emit('message', data);
         socket.emit('members', members);
         socket.broadcast.emit('members', members);
+
+        console.log(socket)
+
         members_data[pseudoName]={socket_id:socket.id, 'ts' : ts(),
           'color': Math.round(Math.random()*5)
         };
@@ -184,12 +187,16 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
     });
 
     socket.on('typing', function (ltState) {
-      members_data[socket.username].state = 'typing';
+      if (members_data.hasOwnProperty(socket.username)) {
+        members_data[socket.username].state = 'typing';
+      }
       socket.broadcast.emit('state', {'member':socket.username, 'state': 'typing'});
     });
 
     socket.on('reading', function (ltState) {
-      members_data[socket.username].state = 'reading';
+      if (members_data.hasOwnProperty(socket.username)) {
+        members_data[socket.username].state = 'reading';
+      }
       socket.broadcast.emit('state', {'member':socket.username, 'state': 'reading'});
     });
 
@@ -199,8 +206,8 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
         if (name != null && !login_blacklist.strInArray(name)) {
           var pm = false;
           // personal message detection
-          if (/^pm(\s+|\b)@/ig.test(message)) {
-            var match = /^pm(\s+|\b)@(\w+)/ig.exec(message);
+          if (/^pm(\s+|\b|)@/ig.test(message)) {
+            var match = /^pm(\s+|\b|)@(\w+)/ig.exec(message);
 //            console.log(':::::::' + match[2]+':::');
             if (typeof(match[2]) !== "undefined" && typeof(members_data[match[2]]) !== "undefined") {
               pm = true;
@@ -209,11 +216,12 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
               } else {
                 socket.emit('message', {'message': filter_message(message), 'pseudo' : name, 'hclass' : 'pm', 'ts' : ts() } );
 
-                io.sockets.socket(members_data[match[1]].socket_id).emit('message', {'message':filter_message(message.replace(/^pm\s+@(\w+)/ig, '')),'pseudo':name,'hclass':'pm', 'ts' : ts()});
+                socket.broadcast.to(members_data[match[2]].socket_id).emit('message', {'message':filter_message(message.replace(/^pm\s+@(\w+)/ig, '')),'pseudo':name,'hclass':'pm', 'ts' : ts()} );
+
               }
 
             }
-            if (typeof(match[1]) !== "undefined" && match[1] === "bot") {
+            if (typeof(match[2]) !== "undefined" && match[2] === "bot") {
                 // heh :D
                 var data = { 'message' : 'Привет, о лучезарный ' + name + '! Я спал многие века ожидая твоего сообщения. Теперь ты меня разбудил. Спасибо друг мой. Но что-то я снова устал. Пойду посплю еще. ', pseudo : 'Bot', 'hclass' : 'server', 'ts' : ts() };
                 socket.emit('message', data);
