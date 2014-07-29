@@ -8,6 +8,13 @@ html
 		script(src="/static/script.js")
 		link(rel="stylesheet" href="/static/style.css")
 		meta(name="viewport" content="width=320, height=480")
+		link(rel="shortcut icon" href="/favicon.ico")
+		link(rel="apple-touch-icon" href="/static/icons/touch-icon-iphone.png")
+		link(rel="apple-touch-icon" sizes="76x76" href="/static/icons/touch-icon-ipad.png")
+		link(rel="apple-touch-icon" sizes="120x120" href="/static/icons/touch-icon-iphone-retina.png")
+		link(rel="apple-touch-icon" sizes="152x152" href="/static/icons/touch-icon-ipad-retina.png")
+		meta(name="apple-mobile-web-app-capable" content="yes")
+		meta(name="apple-mobile-web-app-status-bar-style" content="black")
 		script(type="text/javascript").
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -69,6 +76,13 @@ html
 					p Все настройки применяются немедленно
 					input#ctrlEnterSetting(type="checkbox")
 					label(for="ctrlEnterSetting") Режим отправки Ctrl+Enter (по умолчанию используется просто Enter)
+					br
+					| Уведомления о сообщениях
+					select#notificationsLevel
+						option(value='all') Все
+						option(value='nobot') Без бота
+						option(value='personal') Только персональные
+						option(value='none') Без уведомлений
 					br
 					| Тема
 					select#theme

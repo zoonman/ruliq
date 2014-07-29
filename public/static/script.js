@@ -86,22 +86,42 @@ function addMessage(data) {
 	
 	var t = window.setTimeout(function () {
 	$("#chatEntries").animate({	scrollTop: $("#chatEntries")[0].scrollHeight }, 300); }, 50);
-	// 
-	if (("Notification" in window) && data.pseudo != "Me" && !document.hasFocus()) {
-    		if (Notification.permission === "granted") {
-			var notification = new Notification("New message from "+data.pseudo, {body: plain_msg});
-		}
-		else if (Notification.permission !== 'denied') {
-			Notification.requestPermission(function (permission) {
-				if(!('permission' in Notification)) {
-					Notification.permission = permission;
-				}
-				if (permission === "granted") {
-					var notification = new Notification("New message from "+data.pseudo, {body: plain_msg});
-				}
-			});
-		}
-  	}
+	var notificationAllowed = false;
+  if (("Notification" in window) && data.pseudo != "Me" &&
+      !document.hasFocus()) {
+    if (Notification.permission === "granted") {
+      notificationAllowed = true;
+    }
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission(function(permission) {
+        if (!('permission' in Notification)) {
+          Notification.permission = permission;
+        }
+        if (permission === "granted") {
+          notificationAllowed = true;
+        }
+      });
+    }
+  }
+
+  switch ($('#notificationsLevel').val()) {
+    case 'none': notificationAllowed = false; break;
+    case 'nobot':
+      if (data.hclass == 'server') {
+        notificationAllowed = false;
+      }
+      break;
+    case 'personal':
+      if (data.hclass != 'pm') {
+        notificationAllowed = false;
+      }
+      break;
+  }
+
+  if (notificationAllowed) {
+    var notification = new Notification("Новое сообщение - " + data.pseudo,
+        {body: plain_msg});
+  }
 }
 
 function sentMessage() {
