@@ -2,3 +2,10 @@
     font-family: FixedsysExcelsior301Regular;
     src: url('fonts/FSEX300.ttf');
 }
+
+@font-face {
+    font-family: "Open Sans Light";
+    font-style: normal;
+    font-weight: normal;
+    src: url("https://mozorg.cdn.mozilla.net/media/fonts/OpenSans-Light-webfont.eot?#iefix") format("embedded-opentype"), url("https://mozorg.cdn.mozilla.net/media/fonts/OpenSans-Light-webfont.woff") format("woff"), url("https://mozorg.cdn.mozilla.net/media/fonts/OpenSans-Light-webfont.ttf") format("truetype");
+}

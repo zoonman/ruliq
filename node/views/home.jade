@@ -1,20 +1,26 @@
 doctype html
 html
 	head
-		title RuLiQ - чат для спокойного общения
 		meta(charset="utf-8")
-		script(src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
-		script(src="/socket.io/socket.io.js")
-		script(src="/static/script.js")
+
+		title RuLiQ - чат для спокойного общения
+
 		link(rel="stylesheet" href="/static/style.css")
-		meta(name="viewport" content="width=320, height=480")
+
+		meta(name="viewport" content="initial-scale=1.0, user-scalable=no")
+		meta(name="apple-mobile-web-app-capable" content="yes")
+		meta(name="apple-mobile-web-app-status-bar-style" content="black")
+
 		link(rel="shortcut icon" href="/favicon.ico")
 		link(rel="apple-touch-icon" href="/static/icons/touch-icon-iphone.png")
 		link(rel="apple-touch-icon" sizes="76x76" href="/static/icons/touch-icon-ipad.png")
 		link(rel="apple-touch-icon" sizes="120x120" href="/static/icons/touch-icon-iphone-retina.png")
 		link(rel="apple-touch-icon" sizes="152x152" href="/static/icons/touch-icon-ipad-retina.png")
-		meta(name="apple-mobile-web-app-capable" content="yes")
-		meta(name="apple-mobile-web-app-status-bar-style" content="black")
+
+
+		script(src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
+		script(src="/socket.io/socket.io.js")
+		script(src="/static/script.js")
 		script(type="text/javascript").
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -40,6 +46,7 @@ html
 					p Имя:
 						input(type='text',placeholder='Укажите псевдоним')#pseudoInput
 						button#pseudoSet Войти в чат
+					div#loginMessages
 					hr(size=1)
 					p
 					p    От разработчика
@@ -53,6 +60,8 @@ html
 					a(class="fa fa-facebook-square fa-2x" style="text-decoration: none;color: green" rel="nofollow" title="Поделиться в Facebook" href="http://www.facebook.com/sharer.php?u=http://www.linuxquestions.ru/" target="_blank")
 					a(class="fa fa-vk fa-2x" style="text-decoration: none;color: green" rel="nofollow" title="Поделиться В Контакте" href="http://vkontakte.ru/share.php?url=http://www.linuxquestions.ru/" target="_blank")
 					a(class="fa fa-twitter fa-2x" style="text-decoration: none;color: green" rel="nofollow" title="Опубликовать в Twitter" href="http://twitter.com/home/?status=Чат+http://www.linuxquestions.ru/" target="_blank")
+
+			div.clear
 			div#chatContainer
 				div#chatEntries(class="w100")
 
@@ -86,8 +95,8 @@ html
 					br
 					| Тема
 					select#theme
-							option Fancy
-							option Hacker
+							option(value='fancy') Fancy
+							option(value='hacker',selected="true") Hacker
 					
 			
 			

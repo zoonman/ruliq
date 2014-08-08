@@ -1,8 +1,11 @@
+* {
+    -moz-box-sizing:    border-box;   /* Firefox 1, probably can drop this */
+    -webkit-box-sizing: border-box;   /* Safari 3-4, also probably droppable */
+    box-sizing:         border-box;   /* Everything else */
+}
+
 
 body {
-  font-family: FixedsysExcelsior301Regular, Fixedsys, DOS, Consolas, 'Courier New', Courier, monospace;
-  background-color: #111111;
-  color: #55aa55;
   margin: 0;
   padding: 0;
   border: 0;
@@ -11,28 +14,88 @@ body {
   -webkit-font-smoothing: aliased;
   font-smooth: never;
 }
+
+body.hacker {
+    background-color: #111111;
+    color: #55aa55;
+    font-family: FixedsysExcelsior301Regular, Fixedsys, DOS, Consolas, 'Courier New', Courier, monospace;
+}
+
+body.fancy  {
+    font-family: 'Open Sans Light',X-LocaleSpecific-Light,'Open Sans',X-LocaleSpecific,sans-serif;
+}
+
+input, button {
+    font-size: 1em;
+    padding: 3px 4px;
+    margin: 0px; /* Safari fix */
+}
+
+.hacker input, .hacker button {
+    background: none repeat scroll 0 0 #222222;
+    border: 1px solid #333333;
+    color: #aaaaaa;
+    font-family: FixedsysExcelsior301Regular,Fixedsys,DOS,Consolas,'Courier New',Courier,monospace;
+}
+
+.fancy input, .fancy, .fancy select {
+    font-size: 1em;
+    font-family: 'Open Sans Light',X-LocaleSpecific-Light,'Open Sans',X-LocaleSpecific,sans-serif;
+}
+
+input[type="text"] {
+    box-shadow: 0 5px 10px -5px #000000 inset;
+}
+
+input[type="submit"], input[type="reset"], input[type="button"], button {
+    border: none;
+    box-shadow: 1px 2px 1px -1px rgba(255, 255, 255, 0.05) inset, 1px 1px 1px #000000;
+    text-shadow: 0 1px 1px #000000;
+}
+
+
 .clear {
   clear: both;
 }
 h1 {
-  color: #999999;
   font-size: 16px;
   font-weight: 300;
   line-height: 23px;
   margin: 0;
   padding-left: 5px;
-  text-shadow: 1px 1px 0 #111111;
 }
+
+.hacker h1 {
+    color: #999999;
+    text-shadow: 1px 1px 0 #111111;
+}
+
 header {
   height: 24px;
-  background: none repeat scroll 0 0 #003300;
-  border-left: 1px solid #004400;
-  border-top: 1px solid #004400;
   overflow: hidden;
 }
+
+.hacker header {
+    background: none repeat scroll 0 0 #003300;
+    border-left: 1px solid #004400;
+    border-top: 1px solid #004400;
+}
+
+.fancy header {
+    background: #0095dd;
+    border-left: rgba(73, 95, 112, 0.8);
+    border-top: rgba(73, 95, 112, 0.8);
+}
+
+
 header	h1 #head {
   float: left;
 }
+
+.fancy h1  #head {
+    color: #ffffff;
+}
+
 header	#nav {
   position: absolute;
   right: 0;
@@ -64,8 +127,17 @@ header	i.active {
   margin: 0;
   padding: 0;
   overflow: auto;
-  box-shadow: 0 5px 5px #000000 inset;
 }
+
+.hacker #chatEntries {
+    box-shadow: 0 5px 5px #000000 inset;
+}
+
+.fancy #chatEntries {
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3) inset;
+}
+
+
 #chatMembers {
   font-size: 16px;
   color: #555555;
@@ -80,6 +152,14 @@ header	i.active {
   white-space: nowrap;
   /* position: fixed;top: 28px;right: 30px; */
 }
+
+.hacker #chatMembers {
+}
+
+.fancy #chatMembers {
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+}
+
 #chatMembers	a {
   display: block;
   color: #007700;
@@ -95,6 +175,9 @@ header	i.active {
 }
 .w20 {
   width: 20%;
+}
+.w10 {
+    width: 10%;
 }
 a {
   color: #15aac5;
@@ -147,17 +230,32 @@ a {
 }
 
 #chatControls {
-  border-style: solid;
-  border-width: 1px;
-  border-color: #444444;
-  border-top-color: #000000;
-  box-shadow: 0 2px 3px #000000 inset;
   display: block;
   padding: 5px;
-  background: #222222;
-  height: 42px;
+  height: 55px;
   overflow: hidden;
 }
+
+.hacker #chatControls {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #444444;
+    border-top-color: #000000;
+    box-shadow: 0 2px 3px #000000 inset;
+    background: #222222;
+
+}
+
+.fancy #chatControls {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #0096dd;
+    border-top-color: #b1d2e3;
+    box-shadow: 0 2px 3px #b1d2e3 inset;
+    background: #fafafa;
+}
+
+
 #appStatus {
   font-size: 11px;
   color: #222222;
@@ -171,13 +269,6 @@ a {
 }
 #messageInput {
   background-color: rgba(0, 0, 0, 0);
-  border-color: #222222;
-  border-image: none;
-  border-style: solid;
-  border-width: 0 1px 0 0;
-  box-shadow: 3px 0 2px -3px #000000;
-  color: #cccccc;
-  font-family: FixedsysExcelsior301Regular,Consolas,Courier New,monospace;
   font-size: 16px;
   height: 42px;
   outline: medium none;
@@ -185,14 +276,49 @@ a {
   resize: none;
   width: 100%;
 }
+
+.hacker #messageInput {
+    border-color: #222222;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 1px 0 0;
+    box-shadow: 3px 0 2px -3px #000000;
+    color: #cccccc;
+    font-family: FixedsysExcelsior301Regular,Consolas,Courier New,monospace;
+}
+.fancy #messageInput {
+    color: #484848;
+    border-style: none;
+    border-width: 0px;
+}
+
+
 #submit {
-  background: none repeat scroll 0 0 #222222;
   border: 0 solid #444444;
-  color: #105010;
   float: right;
   text-shadow: 0 -1px 0 #000000;
   width: 45px;
   line-height: 38px;
+  padding: 0;
+  box-shadow: none;
+}
+
+.hacker #submit {
+
+    color: #659324;
+
+}
+
+.fancy #submit {
+
+}
+.hacker #messageInput {
+    background: none repeat scroll 0 0 #222222;
+}
+
+.fancy #messageInput { /* #00539f*/
+    background: transparent;
+    color: #659324;
 }
 
 
@@ -202,11 +328,20 @@ a {
   right: 5px;
   top: 35px;
   width: 300px;
-  background: #222222;
   border: solid 1px #115511;
   padding: 0;
   box-shadow: 1px 1px 5px #000000;
 }
+
+.hacker #chatSettings {
+    background: #222222;
+
+}
+
+.fancy #chatSettings {
+    background: #eeeeee;
+}
+
 
 #chatSettings #hideChatSettings {
   float: right;
@@ -226,36 +361,36 @@ pre, code {
   opacity: 0.5;
 }
 
-.color0 {
+.hacker .color0 {
   background-color: #10121a;
 }
-.color1 {
+.hacker .color1 {
   background-color: #101a10;
 }
-.color2 {
+.hacker .color2 {
   background-color: #1a121a;
 }
-.color3 {
+.hacker .color3 {
   background-color: #1a1211;
 }
-.color4 {
+.hacker .color4 {
   background-color: #171207;
 }
-.color5 {
+.hacker .color5 {
   background-color: #1f1210;
 }
 
 
 a.year.circle {
-  background-color: #004400;
-  border-radius: 150px;
-  color: #eeeeee;
-  display: inline-block;
-  height: 65px;
-  padding-top: 20px;
-  text-align: center;
-  text-decoration: none;
-  width: 85px;
+    background-color: #004400;
+    border-radius: 150px;
+    color: #eeeeee;
+    display: inline-block;
+    height: 65px;
+    padding-top: 10px;
+    text-align: center;
+    text-decoration: none;
+    width: 65px;
 }
 
 a.year.circle span {
@@ -269,3 +404,9 @@ a.year.circle span {
 a.year.circle:hover {
   background-color: #007700;
 }
+
+.room   {float: left}
+.hacker .room   {background-color: #333;color: #555     }
+.hacker .room.active   {background-color: #444;color: #777}
+
+.invisible  {visibility: hidden}

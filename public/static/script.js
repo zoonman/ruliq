@@ -149,13 +149,13 @@ socket.on('message', function(data) {
 
 socket.on('command', function(data) {
 	switch(data.type) {
-		case 'relogin':
+    case 'relogin':
 			$('#chatLogin').show();
 			$('#chatControls').hide();
 			$('#chatEntries').hide();
 			hide_members();
 			ga('send', 'event', 'button', 'click', 'unsuccessfull login');
-			alert('Вам необходимо повторить попытку ввода логина. Проверьте правильность ввода.');
+			$('#loginMessages').html('Вам необходимо повторить попытку ввода логина. Проверьте правильность ввода.');
 			break;
 		case 'reload':
 			ga('send', 'event', 'button', 'click', 'reload', 1);
@@ -257,6 +257,10 @@ $(function() {
 	});
 	$("<link />",{'rel': 'stylesheet','href': '/static/fonts.css'}).appendTo('head');
 	$("<link />",{'rel': 'stylesheet','href': '//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css'}).appendTo('head');
+
+  $('#theme').on('change click blur', function(e) {
+    $('body').attr('class', $('select#theme').val());
+  });
 });
 
 

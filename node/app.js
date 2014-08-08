@@ -1,5 +1,7 @@
 var express = require('express'), app = express(), http=require('http'), MongoClient = require('mongodb').MongoClient;
-var jade = require('jade'), moment = require('moment');
+var jade = require('jade'), moment = require('moment'),
+    routes = require('./routes'),
+    offensive = require('./routes/offensive');
 
 moment.lang('ru');
 
@@ -39,35 +41,13 @@ var login_blacklist = ['null','admin','root','bot','administrator','linux','wind
 var members = ['bot'];
 var members_data = [];
 var messages_data = [];
-var offensive_words = [];
-
-function isOffensive(message) {
-  var retVal = false;
-  offensive_words.forEach(function(ow){
-    if (ow.hasOwnProperty('re')) {
-      if (ow.re.test(message)) {
-        retVal =  true;
-      }
-    }
-  });
-  return retVal;
-}
 
 MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
 
+  var protection = offensive(app, db);
+
   var chatLog = db.collection('chatlog');
 
-  db.collection('offensive').find().toArray(function(err, items) {
-    items.forEach(function(val) {
-      if (val.hasOwnProperty('re')) {
-
-        offensive_words.push({
-          re: ((val.re instanceof RegExp) ? val.re : (new RegExp(val.re, "i"))),
-          level: val.level || 0
-        });
-      }
-    });
-  });
 
   chatLog.find().sort('ts', -1).limit(5).toArray(function(err, items) {
     items.forEach(function(val) {
@@ -83,54 +63,10 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
 
   app.locals.moment = moment;
 
+  routes(app, db, io);
+
   app.get('/', function(req, res){
     res.render('home.jade');
-  });
-
-  app.get('/rules.html', function(req, res){
-    res.render('rules.jade');
-  });
-
-  app.get('/logs/', function(req, res){
-    chatLog.aggregate([{
-      $group:{
-        _id:{ $year: "$ts"},
-        quantity: {$sum: 1}
-      }
-    }], function(err,result) {
-      return res.render('logsYearly.jade', {year: req.params.year, month: req.params.month, chatLogs: result} );
-    });
-  });
-
-  app.get('/logs/convert', function(req, res){
-    chatLog.find().toArray(function(err,items) {
-      items.forEach(function(itVal) {
-        if (typeof itVal.ts == "number") {
-          chatLog.update(
-              {_id: itVal._id},
-              {'$set': {ts: new Date(itVal.ts)}},
-              function(err, done) {
-              }
-          );
-        }
-      });
-      return res.render('rules.jade', {converted: true} );
-    });
-  });
-
-  app.get('/logs/:year', function(req, res){
-    chatLog.aggregate([
-      {$match: {ts: {$gte: new Date(req.params.year + "-01-01T00:00:00.000Z"), $lte: new Date(req.params.year + "-12-31T23:59:59.999Z")}}},
-      {$group: {_id: {$month: "$ts"}, quantity: {$sum: 1}}}
-    ], function(err,result) {
-      return res.render('logsMonthly.jade', {year: req.params.year, chatLogs: result} );
-    });
-
-  });
-  app.get('/logs/:year/:month', function(req, res){
-    chatLog.find().limit(1000).toArray(function(err,items) {
-      return res.render('logsDaily.jade', {year: req.params.year, month: req.params.month, chatLogs: items} );
-    });
   });
 
   server.listen(3000, "127.0.0.1");
@@ -211,7 +147,7 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
 //            console.log(':::::::' + match[2]+':::');
             if (typeof(match[2]) !== "undefined" && typeof(members_data[match[2]]) !== "undefined") {
               pm = true;
-              if (isOffensive(message)) {
+              if (protection.isOffensive(message)) {
                 socket.emit('message', {'message': filter_message('Роботы спасут мир!'), 'pseudo': 'bot', 'hclass': 'server', 'ts': ts()});
               } else {
                 socket.emit('message', {'message': filter_message(message), 'pseudo' : name, 'hclass' : 'pm', 'ts' : ts() } );
@@ -229,7 +165,7 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
           }
 
           if (! pm) {
-            if (isOffensive(message)) {
+            if (protection.isOffensive(message)) {
               message = '...<oops!>...';
             }
             var filtered_message = filter_message(message);
