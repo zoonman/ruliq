@@ -2,11 +2,25 @@ RuLiQ
 =====
 
 
-Web-chat, written on Node.js. Based on WebSockets.
-Used socket.io for message exchange, MongoDB to store chatlogs.
+Web-chat, written on Node.js. Based on WebSockets. Used socket.io for message exchange, MongoDB to store chatlogs. 
+
+### Features
+
++ Personal messages
++ Typing notification
++ Saving public messages into database
++ Rendering of chatlogs
++ Protection against explicit content
++ Basic Spam protection
++ Full support of Russian language
++ Awesome hacker style dark design
 
 Live version is available at http://www.linuxquestions.ru/
 
+### Plans
+
++ Suppport of multiple languages
++ Room support
 
 
 How to run the chat
