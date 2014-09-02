@@ -42,6 +42,9 @@ input, button {
     font-size: 1em;
     font-family: 'Open Sans Light',X-LocaleSpecific-Light,'Open Sans',X-LocaleSpecific,sans-serif;
 }
+.hacker #loginMessages { 
+    color: #ff8c00;
+}
 
 input[type="text"] {
     box-shadow: 0 5px 10px -5px #000000 inset;
