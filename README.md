@@ -26,17 +26,7 @@ Live version is available at http://www.linuxquestions.ru/
 How to run the chat
 -------------------
 
-To run chat locally, setup environment variable MONGODB_CHAT_AUTH to provide connection to MongoDB.
-For example:
-
-    export MONGODB_CHAT_AUTH='mongodb://login:password@localhost:27017/chat'
-    
-Run the node app
-
-    cd node
-    nodejs app.js
-    
-And open in browser url `http://localhost:3000/`. 
+Read at the project page https://www.zoonman.com/projects/ruliq/
 
 
 The product is opensource and provided as is without any gurantees. Use it at your own risk.
