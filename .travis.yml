@@ -1,4 +1,7 @@
-script: cd node
+script: 
+  - cd node
+  - npm install
+  - npm test
 language: node_js
 node_js:
   - "0.11"
