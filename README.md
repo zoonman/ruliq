@@ -1,5 +1,6 @@
 RuLiQ
 =====
+[![Build Status](https://travis-ci.org/zoonman/ruliq.svg?branch=master)](https://travis-ci.org/zoonman/ruliq)
 [![Code Climate](https://codeclimate.com/github/zoonman/ruliq/badges/gpa.svg)](https://codeclimate.com/github/zoonman/ruliq)
 
 Web-chat, written on Node.js. Based on WebSockets. Used socket.io for message exchange, MongoDB to store chatlogs. 
