@@ -43,7 +43,7 @@ var members_data = [];
 var messages_data = [];
 
 MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
-
+console.log(err);
   var protection = offensive(app, db);
 
   var chatLog = db.collection('chatlog');
