@@ -81,7 +81,7 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
         socket.username = pseudoName;
         members.push(pseudoName);
         socket.emit('command', {'type':'succefull_login'} );
-        var data = { 'message' : 'New user [' + pseudoName + '] connected', pseudo : 'bot', 'hclass' : 'server', 'ts' : ts() };
+        var data = { 'message' : 'Присоединился пользователь [' + pseudoName + ']', pseudo : 'bot', 'hclass' : 'server', 'ts' : ts() };
         socket.broadcast.emit('message', data);
         socket.emit('members', members);
         socket.broadcast.emit('members', members);
@@ -105,7 +105,7 @@ MongoClient.connect(process.env.MONGODB_CHAT_AUTH, function(err, db) {
     socket.on('disconnect', function() {
       var name = socket.username;
       if (name != null && !login_blacklist.strInArray(name)) {
-        var data = { 'message' : 'User [' + name + '] disconnected', pseudo : 'bot', 'hclass' : 'server', 'ts' : ts() };
+        var data = { 'message' : 'Пользователь [' + name + '] отключился', pseudo : 'bot', 'hclass' : 'server', 'ts' : ts() };
         socket.broadcast.emit('message', data);
         var u_index = members.indexOf(name);
         if (u_index > -1) {
