@@ -49,7 +49,7 @@ console.log(err);
   var chatLog = db.collection('chatlog');
 
 
-  chatLog.find().sort('ts', -1).limit(5).toArray(function(err, items) {
+  chatLog.find({'hclass' : 'regular'}).sort('ts', -1).limit(5).toArray(function(err, items) {
     items.forEach(function(val) {
       messages_data.unshift(val);
     });
