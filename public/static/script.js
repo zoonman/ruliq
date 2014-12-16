@@ -255,8 +255,8 @@ $(function() {
 	$('#hideChatSettings').click(function() {
 		$("#chatSettings").hide();
 	});
-	$("<link />",{'rel': 'stylesheet','href': '/static/fonts.css'}).appendTo('head');
-	$("<link />",{'rel': 'stylesheet','href': '//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css'}).appendTo('head');
+	//$("<link />",{'rel': 'stylesheet','href': '/static/fonts.css'}).appendTo('head');
+	//$("<link />",{'rel': 'stylesheet','href': '//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css'}).appendTo('head');
 
   $('#theme').on('change click blur', function(e) {
     $('body').attr('class', $('select#theme').val());
