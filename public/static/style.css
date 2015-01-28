@@ -25,6 +25,11 @@ body.fancy  {
     font-family: 'Open Sans Light',X-LocaleSpecific-Light,'Open Sans',X-LocaleSpecific,sans-serif;
 }
 
+body.light  {
+    font-family: Tahoma, Arial;
+    font-size: 13px;
+}
+
 input, button {
     font-size: 1em;
     padding: 3px 4px;
@@ -40,8 +45,14 @@ input, button {
 
 .fancy input, .fancy, .fancy select {
     font-size: 1em;
+    font-family: Tahoma, Arial;
+}
+
+.light input, .light, .light select {
+    font-size: 1em;
     font-family: 'Open Sans Light',X-LocaleSpecific-Light,'Open Sans',X-LocaleSpecific,sans-serif;
 }
+
 .hacker #loginMessages { 
     color: #ff8c00;
 }
@@ -90,12 +101,21 @@ header {
     border-top: rgba(73, 95, 112, 0.8);
 }
 
+.light header {
+    background: #00b1f7;
+    border-left: rgba(73, 95, 112, 0.8);
+    border-top: rgba(73, 95, 112, 0.8);
+}
 
 header	h1 #head {
   float: left;
 }
 
 .fancy h1  #head {
+    color: #ffffff;
+}
+
+.light h1  #head {
     color: #ffffff;
 }
 
@@ -161,6 +181,9 @@ header	i.active {
 
 .fancy #chatMembers {
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+}
+
+.light #chatMembers {
 }
 
 #chatMembers	a {
@@ -258,6 +281,14 @@ a {
     background: #fafafa;
 }
 
+.light #chatControls {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #0096dd;
+    border-top-color: #b1d2e3;
+    box-shadow: 0 2px 3px #b1d2e3 inset;
+    background: #fafafa;
+}
 
 #appStatus {
   font-size: 11px;
@@ -295,6 +326,11 @@ a {
     border-width: 0px;
 }
 
+.light #messageInput {
+    color: #484848;
+    border-style: none;
+    border-width: 0px;
+}
 
 #submit {
   border: 0 solid #444444;
@@ -315,6 +351,10 @@ a {
 .fancy #submit {
 
 }
+.light #submit {
+
+}
+
 .hacker #messageInput {
     background: none repeat scroll 0 0 #222222;
 }
@@ -324,6 +364,10 @@ a {
     color: #659324;
 }
 
+.light #messageInput { /* #00539f*/
+    background: transparent;
+    color: #659324;
+}
 
 #chatSettings {
   display: none;
